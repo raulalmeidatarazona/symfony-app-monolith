@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   nginx:
-    container_name: base-api-nginx
+    container_name: web-app-nginx
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile
@@ -16,7 +16,7 @@ services:
       - php
 
   php:
-    container_name: base-api-php
+    container_name: web-app-php
     build:
       context: .
       dockerfile: docker/php/Dockerfile

@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   nginx:
-    container_name: base-api-nginx
+    container_name: web-app-nginx
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile
@@ -14,8 +14,14 @@ services:
     depends_on:
       - php
 
+###> symfony/mailer ###
+  mailer:
+    image: schickling/mailcatcher
+    ports: [ "1025", "1080" ]
+###< symfony/mailer ###
+
   php:
-    container_name: base-api-php
+    container_name: web-app-php
     build:
       context: .
       dockerfile: docker/php/Dockerfile
@@ -29,15 +35,15 @@ services:
 
   postgres:
     image: postgres:15-alpine
-    container_name: base-api-postgres
+    container_name: web-app-postgres
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: guest
       POSTGRES_PASSWORD: guest
-      POSTGRES_DB: base-api
+      POSTGRES_DB: web-app
     volumes:
-      - base_api_data:/var/lib/postgresql/data
+      - web_app_data:/var/lib/postgresql/data
 
 volumes:
-  base_api_data:
+  web_app_data:
